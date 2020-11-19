@@ -12,12 +12,18 @@ def main():
 
     # Step of Circle Based Search
     imgCBS = filtered.copy()
-    copyImg = drawImage(imgCBS, 255)
+    x_points, y_points = drawImage(imgCBS, 255)
 
-    # showImg(copyImg)
+    for i in range(len(x_points)):
+        resultImg = cv.circle(img, (y_points[i], x_points[i]), 5, (255, 0, 0), thickness=2)
+
+    
+    lineImg = drawLine(imgCBS, x0, y0, x1, y1)
+
+    showImg(lineImg)
 
 
-# Bresenham's Cicle
+# Bresenham's Cicle Algorithm
 def drawImage(img, color):
     xc, yc = np.shape(img)
     xc = int(xc / 2)
@@ -29,8 +35,8 @@ def drawImage(img, color):
     y = r
 
     # Points could be our line
-    x_points = np.array([])
-    y_points = np.array([])
+    x_points = np.array([]) # That's x points of the lines or any points
+    y_points = np.array([]) # That's y points of the lines or any points
 
     while(True):
         x_points, y_points = controlOnCircle(img, xc, yc, x, y, x_points, y_points)
@@ -43,9 +49,7 @@ def drawImage(img, color):
                 y -= 1
         else:
             break
-    print(x_points)  # That's x points of the lines or any points
-    print(y_points)  # That's y points of the lines or any points
-    return img
+    return [x_points.astype(int), y_points.astype(int)]
 
 
 def controlOnCircle(img, xc, yc, x, y, x_points, y_points):
@@ -83,19 +87,24 @@ def controlOnCircle(img, xc, yc, x, y, x_points, y_points):
 
     return [x_points, y_points]
 
-# def drawCircle(img,xc, yc, x, y, color):
-#     img[xc + x][yc + y] = color  # 1 of octans
-#     img[xc - x][yc + y] = color  # 2 of octans
-#     img[xc + x][yc - y] = color  # 3 of octans
-#     img[xc - x][yc - y] = color  # 4 of octans
-#     img[xc + y][yc + x] = color  # 5 of octans
-#     img[xc - y][yc + x] = color  # 6 of octans
-#     img[xc + y][yc - x] = color  # 7 of octans
-#     img[xc - y][yc - x] = color  # 8 of octans
-#     return img
 
+# DDA Line Algorithm
+def drawLine(img, x0, y0, x1, y1):
+    dx = x1 - x0
+    dy = y1 - y0
 
+    print(dx)
+    print(dy)
+    length = abs(dx) if abs(dx) > abs(dy) else abs(dy)
+    xInc = dx/float(length)
+    yInc = dy/float(length)
 
+    for i in range(length):
+        img[ int(x0) ][ int(y0) ] = 255
+        x0 += xInc
+        y0 += yInc
+
+    return img
 
 def showImg(img):
     cv.imshow("img", img)
