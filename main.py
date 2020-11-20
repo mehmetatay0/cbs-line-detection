@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def main():
-    img = cv.imread('img/power-line.jpg')
+    img = cv.imread('img/power-line2.jpg')
     img_copy = img.copy()
     # Canny image filter applied
     filtered = Canny(img)
@@ -25,15 +25,15 @@ def main():
 
     line_xy0_points, line_xy1_points = findLine(imgCBS, x_points, y_points)
     resultImg = cv.line(resultImg, (int(line_xy0_points[1]),int(line_xy0_points[0])), (int(line_xy1_points[1]), int(line_xy1_points[0])), (0, 255, 0), thickness=5)
-    
-    cv.imwrite('results/result_of_power-line.jpg', resultImg)
-    cv.imshow("img", img_copy)
-    cv.imshow("img2", resultImg)
+    print(line_xy0_points)
+    print(line_xy1_points)
+    # cv.imshow("img", img_copy)
+    # cv.imshow("img2", resultImg)
     cv.waitKey(0)
     cv.destroyAllWindows()
 
 
-# Bresenham's Cicle Algorithm
+# Bresenham's Circle Algorithm
 def drawImage(img, color):
     xc, yc = np.shape(img)
     xc = int(xc / 2)
@@ -134,8 +134,10 @@ def findLine(img, x_points, y_points):
 
 
 def Canny(img):
-    edges = cv.Canny(img, 50, 150)
-    return edges
+    cvt_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    blur = cv.GaussianBlur(cvt_img, (3, 3), 0)
+    canny_out = cv.Canny(blur, 150, 200)
+    return canny_out
 
 
 if __name__ == "__main__":
