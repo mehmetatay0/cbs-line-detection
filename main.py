@@ -26,6 +26,7 @@ def main():
     line_xy0_points, line_xy1_points = findLine(imgCBS, x_points, y_points)
     resultImg = cv.line(resultImg, (int(line_xy0_points[1]),int(line_xy0_points[0])), (int(line_xy1_points[1]), int(line_xy1_points[0])), (0, 255, 0), thickness=5)
     
+    cv.imwrite('results/result_of_power-line.jpg', resultImg)
     cv.imshow("img", img_copy)
     cv.imshow("img2", resultImg)
     cv.waitKey(0)
