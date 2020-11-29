@@ -157,15 +157,5 @@ def findLineOnPoint(img, x0, y0, x1, y1, line_xy0_points, line_xy1_points):
     
     return [line_xy0_points, line_xy1_points]
 
-
-# That's operate for correcting repetitive points
-# def convertToSingle(line_xy0_points, line_xy1_points):
-
-    # print(line_xy0_points[:][:])
-    # for i in len(line_xy0_points[:][0]):
-    #     print(i)
-    #     print("--")
-
-
 if __name__ == "__main__":
     main()
